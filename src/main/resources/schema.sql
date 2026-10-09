@@ -2,7 +2,9 @@
 -- Anna University R2025 Semester 3 Specification
 -- Compliant with: Indexed FKs, UNIQUE email, DECIMAL(10,2) currency, created_at timestamp on all tables
 
--- Drop tables in reverse foreign key order for clean resets
+-- Drop views and tables in reverse foreign key order for clean resets
+DROP VIEW IF EXISTS cart;
+DROP VIEW IF EXISTS wishlist;
 DROP TABLE IF EXISTS reviews;
 DROP TABLE IF EXISTS wishlist_items;
 DROP TABLE IF EXISTS cart_items;
@@ -166,3 +168,7 @@ CREATE TABLE reviews (
 );
 CREATE INDEX idx_reviews_product_id ON reviews(product_id);
 CREATE INDEX idx_reviews_user_id ON reviews(user_id);
+
+-- 11. Compatibility Views for 'cart' and 'wishlist' Table Aliases
+CREATE VIEW cart AS SELECT * FROM cart_items;
+CREATE VIEW wishlist AS SELECT * FROM wishlist_items;

@@ -78,18 +78,18 @@
 
     <!-- Quick Demo Accounts Box for Examiner / Reviewer -->
     <div class="demo-card">
-        <div class="fw-bold text-dark mb-1"><i class="bi bi-key-fill text-warning me-1"></i> Seed Accounts for Testing:</div>
+        <div class="fw-bold text-dark mb-1"><i class="bi bi-key-fill text-warning me-1"></i> Pre-seeded Roles & Users:</div>
         <div class="mb-1">
-            <strong>Buyer:</strong> <code>buyer@harmeshmart.com</code> / <code>Buyer@12345</code>
-            <button class="btn btn-xs btn-outline-secondary py-0 px-1 float-end" onclick="fillCreds('buyer@harmeshmart.com', 'Buyer@12345')">Fill</button>
+            <strong>Admin:</strong> <code>admin@harmeshmart.com</code> / <code>admin123</code>
+            <button class="btn btn-xs btn-outline-secondary py-0 px-1 float-end" onclick="fillCreds('admin@harmeshmart.com', 'admin123')">Fill</button>
         </div>
         <div class="mb-1">
-            <strong>Seller:</strong> <code>apex.electronics@harmeshmart.com</code> / <code>Seller@12345</code>
-            <button class="btn btn-xs btn-outline-secondary py-0 px-1 float-end" onclick="fillCreds('apex.electronics@harmeshmart.com', 'Seller@12345')">Fill</button>
+            <strong>Seller:</strong> <code>seller@harmeshmart.com</code> / <code>seller123</code>
+            <button class="btn btn-xs btn-outline-secondary py-0 px-1 float-end" onclick="fillCreds('seller@harmeshmart.com', 'seller123')">Fill</button>
         </div>
         <div>
-            <strong>Admin:</strong> <code>admin@harmeshmart.com</code> / <code>Admin@12345</code>
-            <button class="btn btn-xs btn-outline-secondary py-0 px-1 float-end" onclick="fillCreds('admin@harmeshmart.com', 'Admin@12345')">Fill</button>
+            <strong>Buyer:</strong> <code>buyer@harmeshmart.com</code> / <code>buyer123</code>
+            <button class="btn btn-xs btn-outline-secondary py-0 px-1 float-end" onclick="fillCreds('buyer@harmeshmart.com', 'buyer123')">Fill</button>
         </div>
     </div>
 

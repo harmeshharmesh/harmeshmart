@@ -16,7 +16,7 @@ import java.util.Optional;
 /**
  * Controller for buyer order history, tracking, and downloadable/printable invoice.
  */
-@WebServlet(name = "OrderServlet", urlPatterns = {"/orders", "/orders/*"})
+@WebServlet(name = "OrderServlet", urlPatterns = {"/orders", "/orders/*", "/order", "/order/*", "/order-success"})
 public class OrderServlet extends BaseServlet {
 
     private final OrderService orderService = new OrderServiceImpl();
@@ -29,11 +29,14 @@ public class OrderServlet extends BaseServlet {
             return;
         }
 
+        String servletPath = req.getServletPath();
         String pathInfo = req.getPathInfo();
         String idParam = req.getParameter("id");
+        String uri = req.getRequestURI();
 
-        if (pathInfo != null && pathInfo.contains("/invoice") || "invoice".equalsIgnoreCase(req.getParameter("view"))) {
-            if (idParam != null) {
+        // 1. Tax Invoice Route
+        if ((pathInfo != null && pathInfo.contains("/invoice")) || "invoice".equalsIgnoreCase(req.getParameter("view")) || uri.contains("/invoice")) {
+            if (idParam != null && !idParam.trim().isEmpty()) {
                 try {
                     Long orderId = Long.parseLong(idParam.trim());
                     Optional<Order> orderOpt = orderService.getOrderById(orderId, currentUser.getId(), currentUser.getRole());
@@ -47,13 +50,33 @@ public class OrderServlet extends BaseServlet {
             }
         }
 
+        // 2. Order Confirmation / Success Route
+        if ((pathInfo != null && (pathInfo.contains("/confirmation") || pathInfo.contains("/success"))) 
+                || "/order-success".equals(servletPath) 
+                || uri.contains("/confirmation") 
+                || "confirmation".equalsIgnoreCase(req.getParameter("view"))) {
+            if (idParam != null && !idParam.trim().isEmpty()) {
+                try {
+                    Long orderId = Long.parseLong(idParam.trim());
+                    Optional<Order> orderOpt = orderService.getOrderById(orderId, currentUser.getId(), currentUser.getRole());
+                    if (orderOpt.isPresent()) {
+                        req.setAttribute("order", orderOpt.get());
+                        forwardView(req, resp, "order-success");
+                        return;
+                    }
+                } catch (Exception ignored) {
+                }
+            }
+        }
+
+        // 3. Order Detail Route
         if (idParam != null && !idParam.trim().isEmpty()) {
             try {
                 Long orderId = Long.parseLong(idParam.trim());
                 Optional<Order> orderOpt = orderService.getOrderById(orderId, currentUser.getId(), currentUser.getRole());
                 if (orderOpt.isPresent()) {
                     req.setAttribute("order", orderOpt.get());
-                    forwardView(req, resp, "order-detail");
+                    forwardView(req, resp, "order-success");
                     return;
                 }
             } catch (Exception e) {

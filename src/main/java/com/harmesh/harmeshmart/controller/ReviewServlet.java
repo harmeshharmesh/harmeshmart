@@ -13,7 +13,7 @@ import java.io.IOException;
 /**
  * Controller for handling product reviews and customer star ratings.
  */
-@WebServlet(name = "ReviewServlet", urlPatterns = {"/reviews/add"})
+@WebServlet(name = "ReviewServlet", urlPatterns = {"/reviews/add", "/review/add"})
 public class ReviewServlet extends BaseServlet {
 
     private final ReviewService reviewService = new ReviewServiceImpl();

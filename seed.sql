@@ -7,18 +7,20 @@
 -- Bcrypt hash for Buyer@12345:  $2a$10$K7Z2g1B9a0C3d4E5f6G7H8I9j0K1l2M3n4O5p6Q7r8S9t0U1v2W3x
 
 INSERT INTO users (id, name, email, password_hash, role, phone) VALUES
-(1, 'System Administrator', 'admin@harmeshmart.com', '$2a$10$wN1rBfZxX5uM.kO8qR0UZeGzJvhgIq1lJkmD7T0q1h0bWqW1z1t2y', 'ADMIN', '+91 9876543210'),
-(2, 'Apex Tech World (Seller)', 'apex.electronics@harmeshmart.com', '$2a$10$8sB3J1O7E6pW/5.L4aL9QeXzQ1bJ6wR4rU0V2lK1a8C0dF2g3h4j5', 'SELLER', '+91 9811223344'),
-(3, 'Aura Trends India (Seller)', 'aura.fashion@harmeshmart.com', '$2a$10$8sB3J1O7E6pW/5.L4aL9QeXzQ1bJ6wR4rU0V2lK1a8C0dF2g3h4j5', 'SELLER', '+91 9822334455'),
-(4, 'Zenith Living & Fitness (Seller)', 'zenith.home@harmeshmart.com', '$2a$10$8sB3J1O7E6pW/5.L4aL9QeXzQ1bJ6wR4rU0V2lK1a8C0dF2g3h4j5', 'SELLER', '+91 9833445566'),
-(5, 'Harmesh Kumar (Buyer)', 'buyer@harmeshmart.com', '$2a$10$K7Z2g1B9a0C3d4E5f6G7H8I9j0K1l2M3n4O5p6Q7r8S9t0U1v2W3x', 'BUYER', '+91 9844556677'),
-(6, 'Priya Sharma (Buyer)', 'priya.sharma@example.com', '$2a$10$K7Z2g1B9a0C3d4E5f6G7H8I9j0K1l2M3n4O5p6Q7r8S9t0U1v2W3x', 'BUYER', '+91 9855667788');
+(1, 'System Administrator', 'admin@harmeshmart.com', '$2a$10$mosllc3Jja2nJhzBf65O7Ou9tHU9LHo0cLpBUac/M9YsMdT40Sn/K', 'ADMIN', '+91 9876543210'),
+(2, 'Apex Tech World (Seller)', 'apex.electronics@harmeshmart.com', '$2a$10$0wnriCutd5.eFGHu.MS1vetdKBFIdfRKhy1SKMtTW46mazj6tYVfu', 'SELLER', '+91 9811223344'),
+(3, 'Aura Trends India (Seller)', 'aura.fashion@harmeshmart.com', '$2a$10$0wnriCutd5.eFGHu.MS1vetdKBFIdfRKhy1SKMtTW46mazj6tYVfu', 'SELLER', '+91 9822334455'),
+(4, 'Zenith Living & Fitness (Seller)', 'zenith.home@harmeshmart.com', '$2a$10$0wnriCutd5.eFGHu.MS1vetdKBFIdfRKhy1SKMtTW46mazj6tYVfu', 'SELLER', '+91 9833445566'),
+(5, 'Harmesh Kumar (Buyer)', 'buyer@harmeshmart.com', '$2a$10$3EpeYK7GwwIT32VqUPnUVudHxX6NNuPTal8EIZHljCNbj3AUL8aPy', 'BUYER', '+91 9844556677'),
+(6, 'Priya Sharma (Buyer)', 'priya.sharma@example.com', '$2a$10$3EpeYK7GwwIT32VqUPnUVudHxX6NNuPTal8EIZHljCNbj3AUL8aPy', 'BUYER', '+91 9855667788'),
+(7, 'Harmesh Merchant (Seller)', 'seller@harmeshmart.com', '$2a$10$0wnriCutd5.eFGHu.MS1vetdKBFIdfRKhy1SKMtTW46mazj6tYVfu', 'SELLER', '+91 9811223344');
 
 -- 2. Seed Sellers
 INSERT INTO sellers (id, user_id, store_name, store_description, contact_email, phone, verified, rating) VALUES
 (1, 2, 'Apex Electronics Store', 'Official retailer of flagship smartphones, mechanical keyboards, audio, and premium PC peripherals.', 'support@apexelectronics.in', '+91 9811223344', TRUE, 4.90),
 (2, 3, 'Aura Fashion & Studio', 'Trendy high-street fashion, denim jackets, pure cotton essentials and everyday leather accessories.', 'care@aurafashion.in', '+91 9822334455', TRUE, 4.85),
-(3, 4, 'Zenith Living & Sports', 'Curators of ergonomic living, modern kitchen appliances, fitness gear, and bestselling books.', 'orders@zenithliving.in', '+91 9833445566', TRUE, 4.95);
+(3, 4, 'Zenith Living & Sports', 'Curators of ergonomic living, modern kitchen appliances, fitness gear, and bestselling books.', 'orders@zenithliving.in', '+91 9833445566', TRUE, 4.95),
+(4, 7, 'Harmesh Official Merchant Store', 'Premier verified merchant offering fast dispatch, genuine Indian warranty, and 24x7 customer support.', 'seller@harmeshmart.com', '+91 9811223344', TRUE, 4.95);
 
 -- 3. Seed Categories
 INSERT INTO categories (id, name, slug, description, icon) VALUES

@@ -48,7 +48,7 @@ public final class DBUtil {
             }
 
             String driver = props.getProperty("db.driver", "org.h2.Driver");
-            String url = props.getProperty("db.url", "jdbc:h2:file:./data/harmeshmart;DB_CLOSE_DELAY=-1;AUTO_SERVER=TRUE");
+            String url = props.getProperty("db.url", "jdbc:h2:mem:harmeshmart;DB_CLOSE_DELAY=-1");
             String user = props.getProperty("db.username", "sa");
             String pass = props.getProperty("db.password", "");
 

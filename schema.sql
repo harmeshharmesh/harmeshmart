@@ -1,5 +1,10 @@
--- Root schema.sql for HarmeshMart
--- See db/migrations/V1__init_schema.sql for versioned migrations
+-- HarmeshMart Database Schema
+-- Anna University R2025 Semester 3 Specification
+-- Compliant with: Indexed FKs, UNIQUE email, DECIMAL(10,2) currency, created_at timestamp on all tables
+
+-- Drop views and tables in reverse foreign key order for clean resets
+DROP VIEW IF EXISTS cart;
+DROP VIEW IF EXISTS wishlist;
 DROP TABLE IF EXISTS reviews;
 DROP TABLE IF EXISTS wishlist_items;
 DROP TABLE IF EXISTS cart_items;
@@ -11,6 +16,7 @@ DROP TABLE IF EXISTS categories;
 DROP TABLE IF EXISTS sellers;
 DROP TABLE IF EXISTS users;
 
+-- 1. Users Table
 CREATE TABLE users (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
@@ -23,6 +29,7 @@ CREATE TABLE users (
 CREATE INDEX idx_users_email ON users(email);
 CREATE INDEX idx_users_role ON users(role);
 
+-- 2. Sellers Table (Vendor profile & verification)
 CREATE TABLE sellers (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id BIGINT NOT NULL UNIQUE,
@@ -37,6 +44,7 @@ CREATE TABLE sellers (
 );
 CREATE INDEX idx_sellers_user_id ON sellers(user_id);
 
+-- 3. Categories Table
 CREATE TABLE categories (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL UNIQUE,
@@ -47,6 +55,7 @@ CREATE TABLE categories (
 );
 CREATE INDEX idx_categories_slug ON categories(slug);
 
+-- 4. Products Table
 CREATE TABLE products (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     seller_id BIGINT NOT NULL,
@@ -71,6 +80,7 @@ CREATE INDEX idx_products_category ON products(category);
 CREATE INDEX idx_products_price ON products(price);
 CREATE INDEX idx_products_name ON products(name);
 
+-- 5. Addresses Table (Multi-address book for buyers)
 CREATE TABLE addresses (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id BIGINT NOT NULL,
@@ -86,6 +96,7 @@ CREATE TABLE addresses (
 );
 CREATE INDEX idx_addresses_user_id ON addresses(user_id);
 
+-- 6. Orders Table
 CREATE TABLE orders (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     buyer_id BIGINT NOT NULL,
@@ -103,6 +114,7 @@ CREATE INDEX idx_orders_buyer_id ON orders(buyer_id);
 CREATE INDEX idx_orders_status ON orders(status);
 CREATE INDEX idx_orders_created_at ON orders(created_at);
 
+-- 7. Order Items Table
 CREATE TABLE order_items (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     order_id BIGINT NOT NULL,
@@ -116,6 +128,7 @@ CREATE TABLE order_items (
 CREATE INDEX idx_order_items_order_id ON order_items(order_id);
 CREATE INDEX idx_order_items_product_id ON order_items(product_id);
 
+-- 8. Cart Items Table
 CREATE TABLE cart_items (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id BIGINT NOT NULL,
@@ -129,6 +142,7 @@ CREATE TABLE cart_items (
 CREATE INDEX idx_cart_items_user_id ON cart_items(user_id);
 CREATE INDEX idx_cart_items_product_id ON cart_items(product_id);
 
+-- 9. Wishlist Items Table
 CREATE TABLE wishlist_items (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id BIGINT NOT NULL,
@@ -141,6 +155,7 @@ CREATE TABLE wishlist_items (
 CREATE INDEX idx_wishlist_user_id ON wishlist_items(user_id);
 CREATE INDEX idx_wishlist_product_id ON wishlist_items(product_id);
 
+-- 10. Reviews Table
 CREATE TABLE reviews (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     product_id BIGINT NOT NULL,
@@ -153,3 +168,7 @@ CREATE TABLE reviews (
 );
 CREATE INDEX idx_reviews_product_id ON reviews(product_id);
 CREATE INDEX idx_reviews_user_id ON reviews(user_id);
+
+-- 11. Compatibility Views for 'cart' and 'wishlist' Table Aliases
+CREATE VIEW cart AS SELECT * FROM cart_items;
+CREATE VIEW wishlist AS SELECT * FROM wishlist_items;

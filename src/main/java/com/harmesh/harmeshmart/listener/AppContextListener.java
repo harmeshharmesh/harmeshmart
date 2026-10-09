@@ -1,5 +1,6 @@
 package com.harmesh.harmeshmart.listener;
 
+import com.harmesh.harmeshmart.util.DBInitializer;
 import com.harmesh.harmeshmart.util.DBUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,32 +26,8 @@ public class AppContextListener implements ServletContextListener {
         logger.info("Initializing HarmeshMart Application Context...");
 
         try {
-            // 1. Initialize Connection Pool
-            DBUtil.initialize();
-
-            // 2. Check if tables are created, if not run schema and seed
-            boolean tablesExist = false;
-            try (Connection conn = DBUtil.getConnection();
-                 PreparedStatement ps = conn.prepareStatement(
-                         "SELECT count(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='PUBLIC' AND TABLE_NAME='USERS'")) {
-                try (ResultSet rs = ps.executeQuery()) {
-                    if (rs.next() && rs.getInt(1) > 0) {
-                        tablesExist = true;
-                    }
-                }
-            } catch (Exception e) {
-                logger.info("Database check: {}", e.getMessage());
-            }
-
-            if (!tablesExist) {
-                logger.info("Tables not found. Running schema.sql and seed.sql...");
-                DBUtil.executeSqlScript("schema.sql");
-                DBUtil.executeSqlScript("seed.sql");
-                logger.info("HarmeshMart schema and seed data loaded successfully.");
-            } else {
-                logger.info("HarmeshMart database tables already present.");
-            }
-
+            // Initialize Database and Seed Data via DBInitializer
+            DBInitializer.initialize();
         } catch (Exception e) {
             logger.error("Failed to initialize database during startup: {}", e.getMessage(), e);
         }
