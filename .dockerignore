@@ -1,0 +1,9 @@
+.git
+.github
+target/
+.idea/
+*.iml
+.vscode/
+*.bat
+*.log
+data/

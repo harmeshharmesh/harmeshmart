@@ -47,10 +47,10 @@ public final class DBUtil {
                 }
             }
 
-            String driver = props.getProperty("db.driver", "org.h2.Driver");
-            String url = props.getProperty("db.url", "jdbc:h2:mem:harmeshmart;DB_CLOSE_DELAY=-1");
-            String user = props.getProperty("db.username", "sa");
-            String pass = props.getProperty("db.password", "");
+            String driver = getEnvOrProperty(props, "DB_DRIVER", "db.driver", "org.h2.Driver");
+            String url = getEnvOrProperty(props, "DB_URL", "db.url", "jdbc:h2:mem:harmeshmart;DB_CLOSE_DELAY=-1");
+            String user = getEnvOrProperty(props, "DB_USERNAME", "db.username", "sa");
+            String pass = getEnvOrProperty(props, "DB_PASSWORD", "db.password", "");
 
             HikariConfig config = new HikariConfig();
             config.setDriverClassName(driver);
@@ -142,4 +142,17 @@ public final class DBUtil {
             throw new RuntimeException("Failed executing SQL script " + resourcePath, e);
         }
     }
+
+    private static String getEnvOrProperty(Properties props, String envKey, String propKey, String defaultValue) {
+        String envVal = System.getenv(envKey);
+        if (envVal != null && !envVal.trim().isEmpty()) {
+            return envVal.trim();
+        }
+        String propVal = props.getProperty(propKey);
+        if (propVal != null && !propVal.trim().isEmpty()) {
+            return propVal.trim();
+        }
+        return defaultValue;
+    }
 }
+

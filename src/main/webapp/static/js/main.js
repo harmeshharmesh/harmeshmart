@@ -53,7 +53,8 @@ function initChatbot() {
         body.scrollTop = body.scrollHeight;
 
         const ctx = window.location.pathname;
-        const apiPath = window.contextPath ? (window.contextPath + '/api/v1/chat') : '/HarmeshMart/api/v1/chat';
+        const base = (typeof window.contextPath !== 'undefined') ? window.contextPath : '/HarmeshMart';
+        const apiPath = base + '/api/v1/chat';
 
         fetch(apiPath, {
             method: 'POST',
@@ -121,7 +122,8 @@ function initCartQuantityHandlers() {
 
 // ================= GLOBAL HELPERS =================
 function toggleWishlist(productId, btn) {
-    const apiPath = (window.contextPath || '/HarmeshMart') + '/wishlist/add';
+    const base = (typeof window.contextPath !== 'undefined') ? window.contextPath : '/HarmeshMart';
+    const apiPath = base + '/wishlist/add';
     const formData = new URLSearchParams();
     formData.append('productId', productId);
 
@@ -146,6 +148,6 @@ function toggleWishlist(productId, btn) {
         }
     })
     .catch(() => {
-        window.location.href = (window.contextPath || '/HarmeshMart') + '/login';
+        window.location.href = base + '/login';
     });
 }

@@ -294,7 +294,40 @@ http://localhost:8080/HarmeshMart/api/v1/health
 
 ---
 
-## 7. REST API Endpoints (Section 13)
+## 7. Deploying to Render.com (Cloud Hosting)
+
+HarmeshMart is fully configured for zero-configuration deployment to [Render.com](https://render.com) using Docker and Render Blueprints.
+
+### Method 1: Automatic 1-Click Blueprint (Recommended)
+1. Fork or push this repository to your GitHub account: `harmeshharmesh/harmeshmart`.
+2. Log in to [Render Dashboard](https://dashboard.render.com).
+3. Click **New +** and select **Blueprint**.
+4. Connect your GitHub repository `harmeshmart`.
+5. Render detects [`render.yaml`](file:///render.yaml) automatically, provisions a **Docker Web Service** on the **Free Tier**, and configures:
+   - Dynamic port binding via `$PORT`
+   - In-memory H2 database auto-seeding with INR ₹ catalog
+   - Health check endpoint `/api/v1/health`
+6. Click **Apply**. Your app will build and go live at `https://harmeshmart.onrender.com/` in ~3–5 minutes!
+
+### Method 2: Manual Web Service Setup on Render
+1. Go to **Render Dashboard** -> **New +** -> **Web Service**.
+2. Connect repository `harmeshharmesh/harmeshmart`.
+3. Fill in the following settings:
+   - **Name:** `harmeshmart`
+   - **Runtime:** `Docker` *(Do NOT select Node/Python/etc., Java WAR requires Docker)*
+   - **Dockerfile Path:** `./Dockerfile`
+   - **Instance Type:** `Free`
+   - **Health Check Path:** `/api/v1/health`
+4. Under **Environment Variables**, add:
+   - `DB_URL` = `jdbc:h2:mem:harmeshmart;DB_CLOSE_DELAY=-1`
+   - `DB_USERNAME` = `sa`
+   - `DB_PASSWORD` = (empty)
+   - `AI_CHATBOT_PROVIDER` = `mock` (or `gemini` if providing `GEMINI_API_KEY`)
+5. Click **Create Web Service**.
+
+---
+
+## 8. REST API Endpoints (Section 13)
 
 All endpoints conform to Section 13 fixed response envelope standards:
 `{ "success": true, "data": { ... }, "error": null }`
@@ -308,7 +341,7 @@ All endpoints conform to Section 13 fixed response envelope standards:
 
 ---
 
-## 8. Security & Engineering Checklist Compliance
+## 9. Security & Engineering Checklist Compliance
 
 - [x] **PreparedStatement Only:** All database operations strictly parameterized. No string-concatenated SQL queries.
 - [x] **Password Protection:** Hashes generated using jBCrypt; cleartext passwords never logged or stored.

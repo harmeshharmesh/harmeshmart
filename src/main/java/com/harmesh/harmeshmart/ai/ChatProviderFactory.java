@@ -36,6 +36,19 @@ public final class ChatProviderFactory {
             logger.warn("Could not read ai.chatbot.provider from config.properties: {}", e.getMessage());
         }
 
+        // Allow environment variables to override for cloud platforms (Render, Heroku, etc.)
+        String envType = System.getenv("AI_CHATBOT_PROVIDER");
+        if (envType != null && !envType.trim().isEmpty()) {
+            type = envType.trim();
+        }
+        String envKey = System.getenv("GEMINI_API_KEY");
+        if (envKey == null || envKey.trim().isEmpty()) {
+            envKey = System.getenv("AI_CHATBOT_GEMINI_KEY");
+        }
+        if (envKey != null && !envKey.trim().isEmpty()) {
+            key = envKey.trim();
+        }
+
         if ("gemini".equalsIgnoreCase(type)) {
             provider = new GeminiChatProvider(key);
             logger.info("Initialized GeminiChatProvider.");
